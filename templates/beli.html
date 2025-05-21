@@ -1,0 +1,20 @@
+<!-- templates/beli.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Beli Obat</title>
+</head>
+<body>
+  <h2>Selamat datang, {{ username }}</h2>
+  <h3>Form Pembelian Obat</h3>
+  <form method="post">
+    <label>Nama Obat:</label><br>
+    <input type="text" name="obat_id" required><br>
+    <label>Jumlah:</label><br>
+    <input type="number" name="jumlah" min="1" required><br><br>
+    <button type="submit">Beli</button>
+  </form>
+  <br>
+  <a href="/logout">Logout</a>
+</body>
+</html>
