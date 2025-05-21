@@ -6,7 +6,7 @@ def get_db_connection():
         host='localhost',
         user='root',
         password='',
-        database='user'  # Pastikan nama DB kamu sesuai
+        database='kemjar'  # Pastikan nama DB kamu sesuai
     )
 
 def insert_user(username, email, password_hash):
