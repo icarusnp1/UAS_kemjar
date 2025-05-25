@@ -1,18 +1,39 @@
 <!-- templates/login.html -->
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/styles.css">
   <title>Login</title>
 </head>
-<body>
-  <h2>Login</h2>
-  <form method="post">
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br>
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-    <button type="submit">Login</button>
-  </form>
-  <p>Belum punya akun? <a href="/register">Daftar di sini</a></p>
+
+<body class="body-login">
+  <div class="class-container">
+
+    <div class="form-container">
+
+      <h2>Login</h2>
+      <form method="post" class="form">
+        <div class="login-container">
+          <label class="label-form">Email:</label>
+          <input type="email" name="email" class="form-input" required><br>
+        </div>
+  
+        <div class="login-container">
+          <label class="label-form">Password:</label>
+          <input type="password" name="password" class="form-input" required><br><br>
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+      </form>
+      <p>Belum punya akun? <a href="/register">Daftar di sini</a></p>
+
+    </div>
+    
+    
+  </div>
 </body>
+
 </html>
