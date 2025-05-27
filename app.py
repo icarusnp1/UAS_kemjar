@@ -1,7 +1,7 @@
 # app.py
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from modules.user import register_user, login_user
-from modules.db import insert_transaction
+from modules.db import insert_transaction, get_all_obat
 import os
 
 app = Flask(__name__)
@@ -45,6 +45,8 @@ def login():
 def beli():
     if 'user_id' not in session:
         return redirect('/login')
+    
+    obats = get_all_obat()
 
     if request.method == 'POST':
         user_id = session['user_id']
@@ -52,7 +54,7 @@ def beli():
         jumlah = request.form['jumlah']
         insert_transaction(user_id, obat_id, jumlah)
         flash('Pembelian berhasil!', 'success')
-    return render_template('beli.html', username=session.get('username'))
+    return render_template('beli.html', username=session.get('username'), obats=obats)
 
 # 🚪 Logout
 @app.route('/logout')

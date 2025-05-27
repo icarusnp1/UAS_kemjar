@@ -35,3 +35,12 @@ def insert_transaction(user_id, obat_id, jumlah):
     conn.commit()
     cursor.close()
     conn.close()
+
+def get_all_obat():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id, nama, harga FROM obat")
+    obats = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return obats

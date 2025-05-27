@@ -14,41 +14,77 @@
     <div class="navbar-container">
 
       <img src="../static/img/TobatLogo-128-39.png" alt="Logo" class="logo">
-      <a href="/home">Home</a>
-      <a href="/beli">Beli Obat</a>
-      <a href="/riwayat">Riwayat Pembelian</a>
+      <a href="/home" class="nav-link">Home</a>
+      <a href="/beli" class="nav-link">Beli Obat</a>
+      <a href="/riwayat" class="nav-link">Riwayat Pembelian</a>
 
     </div>
 
     <div class="navbar-container">
 
       <img src="../static/img/user-32.png" alt="User" class="logo">
-      <a href="/logout">Logout</a>
+      <a href="/logout" class="nav-link">Logout</a>
 
     </div>
   </div>
 
-  <div class="content">
+  <div class="content-beli">
 
     <h2 class="welcome-text">Selamat datang, {{ username }}</h2>
-    <h3>Form Pembelian Obat</h3>
-    <form method="post" class="form-beli">
+
+    <div class="beli-container">
 
       <div>
 
-        <label class="label-form">Nama Obat</label>
-        <input type="text" name="obat_id" required class="form-input">
+        <h3>Form Pembelian Obat</h3>
+        <form method="post" class="form-beli">
+
+          <div>
+
+            <label class="label-form">Nama Obat</label>
+            <input type="text" name="obat_id" required class="form-input">
+
+          </div>
+
+          <div>
+
+            <label class="label-form">Jumlah</label>
+            <input type="number" name="jumlah" min="1" required class="form-input">
+
+          </div>
+          <button type="submit" class="btn-login">Beli</button>
+        </form>
 
       </div>
 
-      <div>
+      <div class="w-full">
 
-        <label class="label-form">Jumlah</label>
-        <input type="number" name="jumlah" min="1" required class="form-input">
+        <h3>Daftar Obat</h3>
+
+        <table class="table-beli">
+          <tr class="table-header">
+            <th>No.</th>
+            <th>Nama Obat</th>
+            <th>Harga</th>
+          </tr>
+          {% if obats and obats|length > 0 %}
+          {% for obat in obats %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ obat.nama }}</td>
+            <td>Rp{{ "{:,.0f}".format(obat.harga) }}</td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="3" style="text-align: center; color: red;">Tidak ada obat tersedia</td>
+          </tr>
+          {% endif %}
+        </table>
 
       </div>
-      <button type="submit" class="btn-login">Beli</button>
-    </form>
+
+    </div>
 
   </div>
 </body>
