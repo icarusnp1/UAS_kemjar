@@ -1,20 +1,56 @@
 <!-- templates/beli.html -->
 <!DOCTYPE html>
 <html>
+
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/styles.css">
   <title>Beli Obat</title>
 </head>
-<body>
-  <h2>Selamat datang, {{ username }}</h2>
-  <h3>Form Pembelian Obat</h3>
-  <form method="post">
-    <label>Nama Obat:</label><br>
-    <input type="text" name="obat_id" required><br>
-    <label>Jumlah:</label><br>
-    <input type="number" name="jumlah" min="1" required><br><br>
-    <button type="submit">Beli</button>
-  </form>
-  <br>
-  <a href="/logout">Logout</a>
+
+<body class="body-beli">
+  <div class="navbar">
+    <div class="navbar-container">
+
+      <img src="../static/img/TobatLogo-128-39.png" alt="Logo" class="logo">
+      <a href="/home">Home</a>
+      <a href="/beli">Beli Obat</a>
+      <a href="/riwayat">Riwayat Pembelian</a>
+
+    </div>
+
+    <div class="navbar-container">
+
+      <img src="../static/img/user-32.png" alt="User" class="logo">
+      <a href="/logout">Logout</a>
+
+    </div>
+  </div>
+
+  <div class="content">
+
+    <h2 class="welcome-text">Selamat datang, {{ username }}</h2>
+    <h3>Form Pembelian Obat</h3>
+    <form method="post" class="form-beli">
+
+      <div>
+
+        <label class="label-form">Nama Obat</label>
+        <input type="text" name="obat_id" required class="form-input">
+
+      </div>
+
+      <div>
+
+        <label class="label-form">Jumlah</label>
+        <input type="number" name="jumlah" min="1" required class="form-input">
+
+      </div>
+      <button type="submit" class="btn-login">Beli</button>
+    </form>
+
+  </div>
 </body>
+
 </html>
