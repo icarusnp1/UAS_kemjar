@@ -27,11 +27,11 @@ def check_user(email):
     conn.close()
     return user
 
-def insert_transaction(user_id, obat_id, jumlah):
+def insert_transaction(user_id, obat_id, jumlah, total_harga, waktu):
     conn = get_db_connection()
     cursor = conn.cursor()
-    query = "INSERT INTO transaksi (user_id, obat_id, jumlah) VALUES (%s, %s, %s)"
-    cursor.execute(query, (user_id, obat_id, jumlah))
+    query = "INSERT INTO transaksi (user_id, obat_id, jumlah, total_harga, waktu) VALUES (%s, %s, %s, %s, %s)"
+    cursor.execute(query, (user_id, obat_id, jumlah, total_harga, waktu))
     conn.commit()
     cursor.close()
     conn.close()

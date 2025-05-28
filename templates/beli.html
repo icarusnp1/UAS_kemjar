@@ -14,7 +14,6 @@
     <div class="navbar-container">
 
       <img src="../static/img/TobatLogo-128-39.png" alt="Logo" class="logo">
-      <a href="/home" class="nav-link">Home</a>
       <a href="/beli" class="nav-link">Beli Obat</a>
       <a href="/riwayat" class="nav-link">Riwayat Pembelian</a>
 
@@ -37,21 +36,23 @@
       <div>
 
         <h3>Form Pembelian Obat</h3>
-        <form method="post" class="form-beli">
-
-          <div>
-
-            <label class="label-form">Nama Obat</label>
-            <input type="text" name="obat_id" required class="form-input">
-
-          </div>
-
-          <div>
-
-            <label class="label-form">Jumlah</label>
-            <input type="number" name="jumlah" min="1" required class="form-input">
-
-          </div>
+        <form method="post" class="form-beli" id="form-beli">
+          <table id="items-container" class="table-form-beli">
+            <thead>
+              <tr>
+                <th>Nama Obat</th>
+                <th>Jumlah</th>
+                <th>Total Harga</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="items-tbody">
+              <tr id="empty-row">
+                <td colspan="4" style="text-align:center; color:#888;">Tidak ada item terpilih.</td>
+              </tr>
+              <!-- Example initial row, can be empty if you want -->
+            </tbody>
+          </table>
           <button type="submit" class="btn-login">Beli</button>
         </form>
 
@@ -66,6 +67,7 @@
             <th>No.</th>
             <th>Nama Obat</th>
             <th>Harga</th>
+            <th>Aksi</th>
           </tr>
           {% if obats and obats|length > 0 %}
           {% for obat in obats %}
@@ -73,11 +75,16 @@
             <td>{{ loop.index }}</td>
             <td>{{ obat.nama }}</td>
             <td>Rp{{ "{:,.0f}".format(obat.harga) }}</td>
+            <td>
+              <!-- Update the button in the table to pass obat.id as well -->
+              <button type="button" class="btn-pilih"
+                onclick="addObatToForm('{{ obat.id }}', '{{ obat.nama|escape }}', '{{ obat.harga }}')">Pilih</button>
+            </td>
           </tr>
           {% endfor %}
           {% else %}
           <tr>
-            <td colspan="3" style="text-align: center; color: red;">Tidak ada obat tersedia</td>
+            <td colspan="4" style="text-align: center; color: red;">Tidak ada obat tersedia</td>
           </tr>
           {% endif %}
         </table>
@@ -88,5 +95,84 @@
 
   </div>
 </body>
+
+<script>
+  function updateEmptyRow() {
+    const tableBody = document.getElementById('items-tbody');
+    const itemRows = tableBody.getElementsByClassName('item-row');
+    let emptyRow = document.getElementById('empty-row');
+    if (itemRows.length === 0) {
+      if (!emptyRow) {
+        emptyRow = document.createElement('tr');
+        emptyRow.id = 'empty-row';
+        emptyRow.innerHTML = `<td colspan="4" style="text-align:center; color:#888;">Tidak ada item terpilih.</td>`;
+        tableBody.appendChild(emptyRow);
+      }
+    } else {
+      if (emptyRow) emptyRow.remove();
+    }
+  }
+
+  function addObatToForm(id, nama, harga) {
+    const tableBody = document.querySelector('#items-container tbody');
+    // Check if the obat with the same id already exists in the form
+    const rows = tableBody.getElementsByTagName('tr');
+    for (let row of rows) {
+      const idInput = row.querySelector('input[name="obat_id[]"]');
+      if (idInput && idInput.value == id) {
+        // Increment jumlah
+        const jumlahInput = row.querySelector('input[name="jumlah[]"]');
+        const totalInput = row.querySelector('input[name="total_harga[]"]');
+        let jumlah = parseInt(jumlahInput.value) || 0;
+        jumlahInput.value = jumlah + 1;
+        totalInput.value = (jumlah + 1) * harga;
+        return; // Stop, don't add a new row
+      }
+    }
+    // If not found, add new row
+    const row = document.createElement('tr');
+    row.className = 'item-row';
+    row.innerHTML = `
+      <tr>
+      <td>
+        <input type="hidden" name="obat_id[]" value="${id}">
+        <input type="text" name="obat_nama[]" value="${nama}" required class="item-input" readonly>
+      </td>
+      <td>
+        <input type="number" name="jumlah[]" min="1" value="1" required class="item-input" oninput="updateTotalHarga(this, ${harga})" readonly>
+      </td>
+      <td>
+        <input type="number" name="total_harga[]" value="${harga}" readonly class="item-input total-harga-input">
+      </td>
+      <td>
+        <button type="button" class="btn-hapus" onclick="removeRow(this)">Hapus</button>
+      </td>
+      </tr>
+    `;
+    tableBody.appendChild(row);
+    updateEmptyRow();
+  }
+
+  function updateTotalHarga(input, harga) {
+    const jumlah = parseInt(input.value) || 0;
+    const totalInput = input.closest('tr').querySelector('.total-harga-input');
+    totalInput.value = jumlah * harga;
+  }
+
+  function removeRow(btn) {
+    btn.closest('tr').remove();
+    updateEmptyRow();
+  }
+
+
+  document.getElementById('form-beli').addEventListener('submit', function (e) {
+    const tableBody = document.querySelector('#items-container tbody');
+    const itemRows = tableBody.getElementsByClassName('item-row');
+    if (itemRows.length === 0) {
+      alert('Tidak ada obat yang dipilih.');
+      e.preventDefault();
+    }
+  });
+</script>
 
 </html>

@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from modules.user import register_user, login_user
 from modules.db import insert_transaction, get_all_obat
+from datetime import datetime
 import os
 
 app = Flask(__name__)
@@ -50,9 +51,12 @@ def beli():
 
     if request.method == 'POST':
         user_id = session['user_id']
-        obat_id = request.form['obat_id']
-        jumlah = request.form['jumlah']
-        insert_transaction(user_id, obat_id, jumlah)
+        obat_ids = request.form.getlist('obat_id[]')
+        jumlahs = request.form.getlist('jumlah[]')
+        total_hargas = request.form.getlist('total_harga[]')
+        waktu = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        for obat_id, jumlah, total_harga in zip(obat_ids, jumlahs, total_hargas):
+            insert_transaction(user_id, obat_id, jumlah, total_harga, waktu)
         flash('Pembelian berhasil!', 'success')
     return render_template('beli.html', username=session.get('username'), obats=obats)
 

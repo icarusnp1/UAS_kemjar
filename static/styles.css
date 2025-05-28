@@ -145,6 +145,40 @@
     font-weight: bold;
 }
 
+.btn-pilih {
+    padding: 8px;
+    border: 1px solid var(--primary-blue);
+    background-color: white;
+    color: var(--primary-blue);
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-pilih:hover {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+.btn-hapus {
+    padding: 8px;
+    border: 1px solid var(--error);
+    background-color: white;
+    color: var(--error);
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-hapus:hover {
+    background-color: var(--error);
+    color: white;
+}
+
 .content-beli {
     margin: 0px 32px 0px 32px;
 }
@@ -188,6 +222,29 @@
     font-weight: bold;
 }
 
+.table-form-beli {
+    background-color: white;
+    width: 500px; /* Set your desired fixed width */
+    min-width: 500px;
+    max-width: 500px;
+    padding: 16px;
+    border-radius: 16px;
+    table-layout: fixed; /* Ensures columns fit the table width */
+}
+
+.table-form-beli th,
+.table-form-beli td {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .w-full {
     width: 100%;
+}
+
+.item-input {
+    border: 0px;
+    border-bottom: 2px solid var(--gray-light);
 }
