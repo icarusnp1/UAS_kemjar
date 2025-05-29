@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/styles.css">
+  <title>Transaksi Obat</title>
+</head>
+
+<body class="body-beli">
+  <div class="navbar">
+    <div class="navbar-container">
+      <img src="../static/img/TobatLogo-128-39.png" alt="Logo" class="logo">
+      <a href="/beli" class="nav-link">Beli Obat</a>
+      <a href="/transaksi" class="nav-link">Riwayat Pembelian</a>
+    </div>
+    <div class="navbar-container">
+      <img src="../static/img/user-32.png" alt="User" class="logo">
+      <a href="/logout" class="nav-link">Logout</a>
+    </div>
+  </div>
+
+  <div class="content-beli">
+    <h2 class="welcome-text">Selamat datang, {{ username }}</h2>
+    <div class="transaksi-container">
+      <div class="col-container">
+        <h3 class="text-left">Riwayat Transaksi</h3>
+        <table class="table-beli">
+          <tr class="table-header">
+            <th>No.</th>
+            <th>Nama User</th>
+            <th>Nama Obat</th>
+            <th>Jumlah</th>
+            <th>Total Harga</th>
+            <th>Waktu</th>
+          </tr>
+          {% set start = (page-1)*10 %}
+          {% set end = start+10 %}
+          {% if riwayat and riwayat|length > 0 %}
+            {% for trx in riwayat[start:end] %}
+            <tr>
+              <td>{{ loop.index0 + start + 1 }}</td>
+              <td>{{ trx.user_name }}</td>
+              <td>{{ trx.obat_name }}</td>
+              <td>{{ trx.jumlah }}</td>
+              <td>Rp{{ "{:,.0f}".format(trx.total_harga|int) }}</td>
+              <td>{{ trx.waktu }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="6" style="text-align: center; color: red;">Tidak ada transaksi ditemukan</td>
+          </tr>
+          {% endif %}
+        </table>
+        <!-- Pagination Controls -->
+        {% if riwayat and riwayat|length > 10 %}
+        <div style="margin-top:16px; text-align:center;">
+          {% set total_pages = (riwayat|length // 10) + (1 if riwayat|length % 10 > 0 else 0) %}
+          {% if page > 1 %}
+            <a href="{{ url_for('transaksi', page=page-1) }}" class="nav-link">&laquo; Prev</a>
+          {% endif %}
+          {% for p in range(1, total_pages+1) %}
+            {% if p == page %}
+              <span style="font-weight:bold; color:var(--primary-blue);">{{ p }}</span>
+            {% else %}
+              <a href="{{ url_for('transaksi', page=p) }}" class="nav-link">{{ p }}</a>
+            {% endif %}
+          {% endfor %}
+          {% if page < total_pages %}
+            <a href="{{ url_for('transaksi', page=page+1) }}" class="nav-link">Next &raquo;</a>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

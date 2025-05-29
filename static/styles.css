@@ -68,6 +68,14 @@
     gap: 16px;
 }
 
+.col-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 .nav-link {
     text-decoration: none;
     color: var(--gray-dark);
@@ -102,6 +110,13 @@
 }
 
 .beli-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 16px;
+}
+
+.transaksi-container {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -247,4 +262,9 @@
 .item-input {
     border: 0px;
     border-bottom: 2px solid var(--gray-light);
+}
+
+.text-left {
+    text-align: left;
+    width: 100%;
 }

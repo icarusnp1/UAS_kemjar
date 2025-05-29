@@ -1,7 +1,7 @@
 # app.py
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from modules.user import register_user, login_user
-from modules.db import insert_transaction, get_all_obat
+from modules.db import insert_transaction, get_all_obat, get_riwayat
 from datetime import datetime
 import os
 
@@ -59,6 +59,14 @@ def beli():
             insert_transaction(user_id, obat_id, jumlah, total_harga, waktu)
         flash('Pembelian berhasil!', 'success')
     return render_template('beli.html', username=session.get('username'), obats=obats)
+
+@app.route('/transaksi')
+def transaksi():
+    if 'user_id' not in session:
+        return redirect('/login')
+    page = int(request.args.get('page', 1))
+    riwayat = get_riwayat()
+    return render_template('transaksi.html', username=session.get('username'), riwayat=riwayat, page=page)
 
 # 🚪 Logout
 @app.route('/logout')

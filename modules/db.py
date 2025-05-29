@@ -44,3 +44,25 @@ def get_all_obat():
     cursor.close()
     conn.close()
     return obats
+
+def get_riwayat():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    query = """
+        SELECT 
+            r.user_id,
+            u.username AS user_name,
+            r.obat_id,
+            o.nama AS obat_name,
+            r.jumlah,
+            r.total_harga,
+            r.waktu
+        FROM transaksi r
+        JOIN users u ON r.user_id = u.id
+        JOIN obat o ON r.obat_id = o.id
+    """
+    cursor.execute(query)
+    riwayat = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return riwayat
