@@ -32,7 +32,9 @@
       <div class="login-container">
 
         <label class="label-form">Password:</label>
-        <input type="password" name="password" required class="form-input"><br>
+        <input type="password" name="password" required class="form-input"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])(?=.{8,})(?!.*[*'=]).*$"
+        title="Minimal 8 karakter, ada huruf besar, kecil, angka, simbol, dan tidak boleh *, ' atau ="><br>
 
       </div>
 
